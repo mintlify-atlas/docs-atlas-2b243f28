@@ -1,0 +1,152 @@
+---
+title: "Graphs, Sets & Probabilistic Structures"
+description: "Graph, Disjoint Set, Bloom Filter, and LRU Cache implementations in JavaScript."
+---
+
+This page covers more advanced data structures: graphs for modeling relationships, disjoint sets for grouping, bloom filters for probabilistic membership testing, and LRU caches for bounded key-value storage.
+
+<Note>
+  All structures on this page are labeled **A** (Advanced).
+</Note>
+
+## Graph
+
+`A` A graph is a set of vertices (nodes) connected by edges. This implementation supports both directed and undirected graphs with weighted edges.
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| Add vertex | O(1) |
+| Add edge | O(1) |
+| Get neighbors | O(1) |
+| Get all vertices | O(V) |
+
+**Source:** `src/data-structures/graph/`
+
+```javascript graph-usage.js
+import Graph from './Graph';
+import GraphVertex from './GraphVertex';
+import GraphEdge from './GraphEdge';
+
+// Create a directed graph
+const graph = new Graph(true);
+
+const vertexA = new GraphVertex('A');
+const vertexB = new GraphVertex('B');
+const vertexC = new GraphVertex('C');
+
+graph.addVertex(vertexA);
+graph.addVertex(vertexB);
+graph.addVertex(vertexC);
+
+// Add weighted edges
+const edgeAB = new GraphEdge(vertexA, vertexB, 2);
+const edgeBC = new GraphEdge(vertexB, vertexC, 5);
+graph.addEdge(edgeAB);
+graph.addEdge(edgeBC);
+
+graph.getNeighbors(vertexA); // [vertexB]
+graph.getAllVertices();       // [vertexA, vertexB, vertexC]
+graph.getAllEdges();          // [edgeAB, edgeBC]
+```
+
+The `Graph` class is used as the foundation for all graph algorithms in this repository including Dijkstra, Bellman-Ford, Prim, Kruskal, and others.
+
+## Disjoint Set (Union-Find)
+
+`A` A Disjoint Set (also called Union-Find or Merge-Find Set) tracks a collection of non-overlapping subsets. It supports two primary operations: union (merge two sets) and find (which set does an element belong to). It is widely used in Kruskal's MST algorithm and network connectivity problems.
+
+**Key operations:**
+
+| Operation | Complexity (with path compression) |
+|-----------|-----------|
+| Make set | O(1) |
+| Find | O(α(n)) ≈ O(1) amortized |
+| Union | O(α(n)) ≈ O(1) amortized |
+
+**Source:** `src/data-structures/disjoint-set/`
+
+```javascript disjoint-set-usage.js
+import DisjointSet from './DisjointSet';
+
+const disjointSet = new DisjointSet();
+
+// Create isolated sets
+disjointSet.makeSet('A');
+disjointSet.makeSet('B');
+disjointSet.makeSet('C');
+
+// Union sets
+disjointSet.union('A', 'B'); // A and B are now in the same set
+
+// Find the root representative of a set
+disjointSet.find('A'); // returns the DisjointSetNode at the root
+disjointSet.find('B'); // same root node as A
+
+disjointSet.inSameSet('A', 'B'); // true
+disjointSet.inSameSet('A', 'C'); // false
+```
+
+## Bloom Filter
+
+`A` A Bloom Filter is a space-efficient probabilistic data structure used to test whether an element is a member of a set. It can produce **false positives** (report membership when the element is absent) but never **false negatives** (if it says "not a member", that is guaranteed to be correct).
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| Insert | O(k) — k = number of hash functions |
+| Query | O(k) |
+| Space | O(m) — m = bit array size |
+
+**Source:** `src/data-structures/bloom-filter/`
+
+```javascript bloom-filter-usage.js
+import BloomFilter from './BloomFilter';
+
+const filter = new BloomFilter();
+
+filter.insert('dog');
+filter.insert('cat');
+filter.insert('fish');
+
+filter.mayContain('dog');   // true (definitely present)
+filter.mayContain('bird');  // false (definitely absent)
+filter.mayContain('cat');   // true (definitely present)
+// Note: rare false positives are possible for items not inserted
+```
+
+<Warning>
+  Bloom filters cannot delete items. They are ideal for read-heavy membership tests where occasional false positives are acceptable, such as caching layers or deduplication pipelines.
+</Warning>
+
+## LRU Cache
+
+`A` An LRU (Least Recently Used) Cache evicts the least recently accessed item when the cache reaches its capacity. It provides O(1) get and set operations by combining a hash map with a doubly linked list.
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| get(key) | O(1) |
+| set(key, value) | O(1) |
+
+**Source:** `src/data-structures/lru-cache/`
+
+```javascript lru-cache-usage.js
+import LRUCache from './LRUCache';
+
+const cache = new LRUCache(3); // capacity = 3
+
+cache.set('a', 1);
+cache.set('b', 2);
+cache.set('c', 3);
+
+cache.get('a'); // 1 — 'a' is now most recently used
+
+cache.set('d', 4); // evicts 'b' (least recently used)
+
+cache.get('b'); // undefined — was evicted
+cache.get('d'); // 4
+```

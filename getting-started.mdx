@@ -1,0 +1,79 @@
+---
+title: "Getting started"
+description: "Set up the javascript-algorithms repository locally and run the test suite."
+---
+
+## Prerequisites
+
+- Node.js >= 22.0.0
+- npm >= 10.0.0
+
+## Setup
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/trekhleb/javascript-algorithms.git
+    ```
+  </Step>
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    ```
+  </Step>
+  <Step title="Run all tests">
+    ```bash
+    npm test
+    ```
+  </Step>
+  <Step title="Run a specific test">
+    Pass a pattern to target a single algorithm or data structure:
+
+    ```bash
+    npm test -- 'LinkedList'
+    ```
+  </Step>
+  <Step title="Lint the source code">
+    ```bash
+    npm run lint
+    ```
+  </Step>
+</Steps>
+
+## Playground
+
+The repository includes a playground file for experimenting with any algorithm or data structure interactively.
+
+The playground is located at `src/playground/playground.js`. To run it:
+
+```bash
+npm test -- 'playground'
+```
+
+Edit the file to try out implementations, test edge cases, or prototype your own variations.
+
+## Troubleshooting
+
+**Tests fail after pulling new changes**
+
+Delete `node_modules` and reinstall dependencies:
+
+```bash
+rm -rf node_modules
+npm install
+```
+
+**Unexpected Node.js version errors**
+
+Check your current Node.js version:
+
+```bash
+node --version
+```
+
+If you use [nvm](https://github.com/nvm-sh/nvm), switch to a compatible version:
+
+```bash
+nvm install 22
+nvm use 22
+```

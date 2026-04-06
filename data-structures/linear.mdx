@@ -1,0 +1,359 @@
+---
+title: "Linear Data Structures"
+description: "Linked lists, queues, stacks, hash tables, heaps, and priority queues — the sequential and list-based building blocks used throughout algorithm design."
+keywords: ["linked list", "doubly linked list", "queue", "stack", "hash table", "heap", "priority queue", "javascript", "data structures"]
+---
+
+Linear data structures organize elements sequentially, where each item has a clear predecessor and successor (except at the boundaries). This page covers the implementations found in [trekhleb/javascript-algorithms](https://github.com/trekhleb/javascript-algorithms).
+
+**Difficulty labels:** `B` = Beginner, `A` = Advanced
+
+---
+
+<AccordionGroup>
+
+<Accordion title="LinkedList — B">
+
+## LinkedList
+
+A singly-linked list where each node holds a value and a `next` pointer. The list tracks both `head` and `tail` for O(1) prepend and append.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `prepend(value)` | Insert at head |
+| `append(value)` | Insert at tail |
+| `insert(value, index)` | Insert at arbitrary index |
+| `delete(value)` | Remove all nodes matching value |
+| `find({ value, callback })` | Search by value or predicate |
+| `deleteHead()` | Remove and return head node |
+| `deleteTail()` | Remove and return tail node |
+| `reverse()` | Reverse the list in-place |
+| `fromArray(values)` | Bulk-insert from an array |
+| `toArray()` | Return nodes as an array |
+
+**Code example**
+
+```javascript
+import LinkedList from './linked-list/LinkedList';
+
+const list = new LinkedList();
+
+list.append(1).append(2).append(3); // 1 -> 2 -> 3
+list.prepend(0);                     // 0 -> 1 -> 2 -> 3
+
+// Find by value
+const node = list.find({ value: 2 }); // LinkedListNode { value: 2 }
+
+// Find by predicate
+const even = list.find({ callback: (v) => v % 2 === 0 }); // node with value 0
+
+list.delete(2);  // removes all nodes with value 2
+list.reverse();  // 3 -> 1 -> 0
+
+console.log(list.toString()); // "3,1,0"
+```
+
+**Time complexity**
+
+| Operation | Average | Worst |
+|---|---|---|
+| Access | O(n) | O(n) |
+| Search | O(n) | O(n) |
+| Prepend | O(1) | O(1) |
+| Append | O(1) | O(1) |
+| Delete (by value) | O(n) | O(n) |
+
+</Accordion>
+
+<Accordion title="DoublyLinkedList — B">
+
+## DoublyLinkedList
+
+Each node carries both `next` and `previous` pointers, enabling O(1) deletion from the tail without traversal. The trade-off is extra memory per node.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `prepend(value)` | Insert at head, update `previous` links |
+| `append(value)` | Insert at tail, update `previous` links |
+| `delete(value)` | Remove all matching nodes, fix both pointers |
+| `find({ value, callback })` | Search by value or predicate |
+| `deleteHead()` | Remove head, set `head.previous = null` |
+| `deleteTail()` | Remove tail in O(1) via `tail.previous` |
+| `reverse()` | Swap `next`/`previous` on every node |
+
+**Code example**
+
+```javascript
+import DoublyLinkedList from './doubly-linked-list/DoublyLinkedList';
+
+const list = new DoublyLinkedList();
+
+list.append('a').append('b').append('c');
+list.prepend('z'); // z <-> a <-> b <-> c
+
+// O(1) tail deletion (no traversal needed)
+const removed = list.deleteTail(); // removed.value === 'c'
+
+list.delete('a'); // z <-> b
+
+list.reverse();   // b <-> z
+console.log(list.toString()); // "b,z"
+```
+
+**Time complexity**
+
+| Operation | Average | Worst |
+|---|---|---|
+| Access | O(n) | O(n) |
+| Search | O(n) | O(n) |
+| Prepend | O(1) | O(1) |
+| Append | O(1) | O(1) |
+| Delete tail | O(1) | O(1) |
+| Delete by value | O(n) | O(n) |
+
+</Accordion>
+
+<Accordion title="Queue — B">
+
+## Queue
+
+A FIFO (first-in, first-out) structure. This implementation delegates to `LinkedList` internally — `enqueue` maps to `append`, and `dequeue` maps to `deleteHead`.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `enqueue(value)` | Add to the back of the queue |
+| `dequeue()` | Remove and return the front element |
+| `peek()` | Read the front element without removing it |
+| `isEmpty()` | Returns `true` when queue is empty |
+
+**Code example**
+
+```javascript
+import Queue from './queue/Queue';
+
+const queue = new Queue();
+
+queue.enqueue('task-1');
+queue.enqueue('task-2');
+queue.enqueue('task-3');
+
+queue.peek();    // 'task-1'
+queue.dequeue(); // 'task-1'
+queue.dequeue(); // 'task-2'
+
+queue.isEmpty(); // false
+queue.dequeue(); // 'task-3'
+queue.isEmpty(); // true
+```
+
+**Time complexity**
+
+| Operation | Average |
+|---|---|
+| Enqueue | O(1) |
+| Dequeue | O(1) |
+| Peek | O(1) |
+
+</Accordion>
+
+<Accordion title="Stack — B">
+
+## Stack
+
+A LIFO (last-in, first-out) structure built on `LinkedList`. `push` maps to `prepend` (insert at head), and `pop` maps to `deleteHead`.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `push(value)` | Add to the top of the stack |
+| `pop()` | Remove and return the top element |
+| `peek()` | Read the top element without removing it |
+| `isEmpty()` | Returns `true` when the stack is empty |
+| `toArray()` | Return all values as an array (top first) |
+
+**Code example**
+
+```javascript
+import Stack from './stack/Stack';
+
+const stack = new Stack();
+
+stack.push(1);
+stack.push(2);
+stack.push(3);
+
+stack.peek(); // 3  (top of stack)
+stack.pop();  // 3
+stack.pop();  // 2
+
+stack.toArray(); // [1]
+stack.isEmpty(); // false
+```
+
+**Time complexity**
+
+| Operation | Average |
+|---|---|
+| Push | O(1) |
+| Pop | O(1) |
+| Peek | O(1) |
+
+</Accordion>
+
+<Accordion title="HashTable — B">
+
+## HashTable
+
+An array of `LinkedList` buckets. Keys are hashed to a bucket index; collisions are resolved via chaining. The default table size is 32 buckets.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `set(key, value)` | Insert or update a key-value pair |
+| `get(key)` | Retrieve a value by key |
+| `delete(key)` | Remove a key-value pair |
+| `has(key)` | Check whether a key exists |
+| `getKeys()` | Return all stored keys |
+| `getValues()` | Return all stored values |
+| `hash(key)` | Compute bucket index for a key |
+
+**Code example**
+
+```javascript
+import HashTable from './hash-table/HashTable';
+
+const table = new HashTable(64); // 64-bucket table for fewer collisions
+
+table.set('name', 'Alice');
+table.set('age', 30);
+table.set('city', 'Berlin');
+
+table.get('name');   // 'Alice'
+table.has('age');    // true
+table.has('email');  // false
+
+table.delete('city');
+table.getKeys();     // ['name', 'age']
+table.getValues();   // ['Alice', 30]
+```
+
+**Time complexity**
+
+| Operation | Average | Worst |
+|---|---|---|
+| Set | O(1) | O(n) |
+| Get | O(1) | O(n) |
+| Delete | O(1) | O(n) |
+| Has | O(1) | O(1) |
+
+<Note>Worst-case O(n) occurs when all keys collide into the same bucket. A larger table size reduces collision probability.</Note>
+
+</Accordion>
+
+<Accordion title="Heap / MinHeap / MaxHeap — A">
+
+## Heap
+
+An abstract base class (`Heap`) backed by an array. Concrete subclasses `MinHeap` and `MaxHeap` implement `pairIsInCorrectOrder` to enforce heap order. The root is always the minimum (or maximum) element.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `add(item)` | Insert and heapify up |
+| `poll()` | Remove and return the root, heapify down |
+| `peek()` | Read the root without removing it |
+| `remove(item)` | Remove all occurrences of an item |
+| `find(item)` | Return indices of matching items |
+| `isEmpty()` | Returns `true` when heap is empty |
+
+**Code example**
+
+```javascript
+import MinHeap from './heap/MinHeap';
+
+const heap = new MinHeap();
+
+heap.add(5).add(3).add(8).add(1);
+
+heap.peek();  // 1  (minimum element)
+heap.poll();  // 1  (removes minimum)
+heap.peek();  // 3
+
+heap.add(2);
+heap.toString(); // internal array, e.g. "2,5,3,8"
+
+heap.remove(5);
+heap.isEmpty(); // false
+```
+
+**Time complexity**
+
+| Operation | Average |
+|---|---|
+| Add | O(log n) |
+| Poll | O(log n) |
+| Peek | O(1) |
+| Remove arbitrary | O(n) |
+
+</Accordion>
+
+<Accordion title="PriorityQueue — A">
+
+## PriorityQueue
+
+Extends `MinHeap`. Each item is associated with a numeric priority (lower number = higher priority). The comparator is replaced to sort by priority rather than value.
+
+**Key methods**
+
+| Method | Description |
+|---|---|
+| `add(item, priority)` | Enqueue item with a priority (default `0`) |
+| `remove(item, comparator?)` | Remove item, also clears its priority entry |
+| `changePriority(item, priority)` | Re-prioritize an existing item |
+| `hasValue(item)` | Check if item is currently in the queue |
+| `findByValue(item)` | Return indices of matching items |
+| `poll()` | Remove and return the highest-priority item |
+| `peek()` | Read the highest-priority item |
+
+**Code example**
+
+```javascript
+import PriorityQueue from './priority-queue/PriorityQueue';
+
+const pq = new PriorityQueue();
+
+pq.add('low-priority-task', 10);
+pq.add('critical-task', 1);
+pq.add('normal-task', 5);
+
+pq.peek();   // 'critical-task'  (priority 1 = highest)
+pq.poll();   // 'critical-task'
+pq.peek();   // 'normal-task'    (priority 5)
+
+pq.changePriority('low-priority-task', 2);
+pq.peek();   // 'low-priority-task' (now priority 2)
+
+pq.hasValue('normal-task'); // true
+```
+
+**Time complexity**
+
+| Operation | Average |
+|---|---|
+| Add | O(log n) |
+| Poll | O(log n) |
+| Peek | O(1) |
+| Change priority | O(n log n) |
+
+</Accordion>
+
+</AccordionGroup>

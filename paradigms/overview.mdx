@@ -1,0 +1,46 @@
+---
+title: "Algorithmic Paradigms"
+description: "An overview of the five algorithmic paradigms used in this repository: brute force, greedy, divide and conquer, dynamic programming, and backtracking."
+---
+
+An algorithmic paradigm is a general method or approach that underlies the design of a class of algorithms. It is an abstraction higher than the notion of an algorithm, just as an algorithm is an abstraction higher than a computer program.
+
+This repository organizes its algorithm implementations by both topic and paradigm.
+
+## The five paradigms
+
+<CardGroup cols={2}>
+  <Card title="Brute Force & Greedy" icon="hammer" href="/paradigms/brute-force-and-greedy">
+    Try all possibilities, or always pick the locally optimal choice
+  </Card>
+  <Card title="Divide and Conquer" icon="scissors" href="/paradigms/divide-and-conquer">
+    Split the problem into smaller subproblems and combine results
+  </Card>
+  <Card title="Dynamic Programming" icon="table" href="/paradigms/dynamic-programming">
+    Build solutions from previously computed subproblem results
+  </Card>
+  <Card title="Backtracking" icon="rotate-left" href="/paradigms/backtracking">
+    Explore solution candidates and abandon invalid paths early
+  </Card>
+</CardGroup>
+
+## Quick reference
+
+| Paradigm | Key idea | When to use |
+|----------|----------|-------------|
+| **Brute Force** | Try every possibility | Small input sizes, correctness baseline |
+| **Greedy** | Always pick the local optimum | Problems with optimal substructure and greedy choice property |
+| **Divide & Conquer** | Split → solve → combine | Problems that decompose into independent subproblems |
+| **Dynamic Programming** | Memoize overlapping subproblems | Problems with overlapping subproblems and optimal substructure |
+| **Backtracking** | DFS with pruning | Constraint satisfaction, combinatorial search |
+| **Branch & Bound** | Backtracking + cost bounding | Optimization problems requiring optimal solution |
+
+<Note>
+  Many problems can be solved by multiple paradigms. For example, the Jump Game has brute force, DP (top-down and bottom-up), and greedy solutions — all implemented in `src/algorithms/uncategorized/jump-game/`.
+</Note>
+
+## Branch & Bound
+
+Branch and Bound extends backtracking by remembering the lowest-cost solution found so far and using it as a lower bound to prune partial solutions that cannot improve on it. It combines BFS traversal for bounding with DFS for state-space exploration.
+
+This paradigm is referenced in the README but the implementations generally fall under the backtracking or graph categories above.

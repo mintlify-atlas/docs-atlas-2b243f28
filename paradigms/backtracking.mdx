@@ -1,0 +1,105 @@
+---
+title: "Backtracking"
+description: "Algorithms that explore solution candidates via DFS and abandon (backtrack) invalid paths early."
+---
+
+Backtracking is a refinement of brute force. Instead of blindly generating all candidates, backtracking:
+
+1. Builds the candidate solution **incrementally**
+2. Tests at each step whether the partial candidate can possibly lead to a valid solution
+3. **Abandons** (backtracks) the candidate as soon as it determines it cannot work
+4. Tries the next alternative
+
+This typically uses **depth-first search (DFS)** of the state space.
+
+## When to use
+
+- Constraint satisfaction problems (e.g., N-Queens, Sudoku)
+- Combinatorial search where the solution space is large but many branches can be pruned early
+- When you need all solutions, not just one
+
+## Examples in this repository
+
+| Algorithm | Difficulty | Source |
+|-----------|-----------|--------|
+| Jump Game (backtracking) | `B` | `src/algorithms/uncategorized/jump-game/` |
+| Unique Paths (backtracking) | `B` | `src/algorithms/uncategorized/unique-paths/` |
+| Power Set | `B` | `src/algorithms/sets/power-set/` |
+| Hamiltonian Cycle | `A` | `src/algorithms/graph/hamiltonian-cycle/` |
+| N-Queens Problem | `A` | `src/algorithms/uncategorized/n-queens/` |
+| Knight's Tour | `A` | `src/algorithms/uncategorized/knight-tour/` |
+| Combination Sum | `A` | `src/algorithms/sets/combination-sum/` |
+
+## N-Queens Problem
+
+Place N queens on an N×N chessboard such that no two queens share a row, column, or diagonal.
+
+```javascript n-queens-approach.js
+// The algorithm tries placing a queen in each column of the current row.
+// If the placement is safe (no conflicts), it recurses to the next row.
+// If no safe column exists, it backtracks to the previous row and tries
+// the next column.
+
+function isSafe(board, row, col) {
+  // Check column above
+  for (let i = 0; i < row; i++) {
+    if (board[i][col] === 'Q') return false;
+  }
+  // Check upper-left diagonal
+  for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+    if (board[i][j] === 'Q') return false;
+  }
+  // Check upper-right diagonal
+  for (let i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) {
+    if (board[i][j] === 'Q') return false;
+  }
+  return true;
+}
+```
+
+**Source:** `src/algorithms/uncategorized/n-queens/`
+
+## Combination Sum
+
+Find all combinations of numbers from a candidate list that sum to a target value. Each number may be used multiple times.
+
+```javascript combination-sum-approach.js
+// At each step, either include the current candidate (and recurse)
+// or skip it (backtrack). Stop when the running sum equals the target
+// or exceeds it.
+function combinationSum(candidates, target) {
+  const results = [];
+
+  function backtrack(start, current, remaining) {
+    if (remaining === 0) {
+      results.push([...current]);
+      return;
+    }
+    for (let i = start; i < candidates.length; i++) {
+      if (candidates[i] <= remaining) {
+        current.push(candidates[i]);
+        backtrack(i, current, remaining - candidates[i]);
+        current.pop(); // backtrack
+      }
+    }
+  }
+
+  backtrack(0, [], target);
+  return results;
+}
+```
+
+**Source:** `src/algorithms/sets/combination-sum/`
+
+## Backtracking vs. Dynamic Programming
+
+| | Backtracking | Dynamic Programming |
+|--|-------------|-------------------|
+| Subproblems | Independent | Overlapping |
+| Result storage | No (prune and explore) | Yes (memoize) |
+| Goal | Find valid solution(s) | Find optimal solution |
+| Approach | DFS with pruning | Build from subproblem results |
+
+<Note>
+  Some problems admit both approaches. The Jump Game in `src/algorithms/uncategorized/jump-game/` has backtracking, DP, and greedy implementations — studying all three side by side is a great way to understand the differences.
+</Note>

@@ -1,0 +1,109 @@
+---
+title: "Search Algorithms"
+description: "Linear, binary, jump, and interpolation search implementations in JavaScript."
+---
+
+Search algorithms locate an element within a data structure. This repository includes four search implementations, all labeled **B** (Beginner).
+
+**Source:** `src/algorithms/search/`
+
+## Complexity comparison
+
+| Algorithm | Best | Average | Worst | Requires sorted? |
+|-----------|------|---------|-------|-----------------|
+| Linear Search | O(1) | O(n) | O(n) | No |
+| Binary Search | O(1) | O(log n) | O(log n) | Yes |
+| Jump Search | O(1) | O(√n) | O(√n) | Yes |
+| Interpolation Search | O(1) | O(log log n) | O(n) | Yes (uniform) |
+
+## Binary Search
+
+`B` The most important search algorithm. Repeatedly halves the search space by comparing the target to the midpoint element. Requires a sorted array.
+
+```javascript binarySearch.js
+import Comparator from '../../../utils/comparator/Comparator';
+
+export default function binarySearch(sortedArray, seekElement, comparatorCallback) {
+  const comparator = new Comparator(comparatorCallback);
+  let startIndex = 0;
+  let endIndex = sortedArray.length - 1;
+
+  while (startIndex <= endIndex) {
+    const middleIndex = startIndex + Math.floor((endIndex - startIndex) / 2);
+
+    if (comparator.equal(sortedArray[middleIndex], seekElement)) {
+      return middleIndex;
+    }
+
+    if (comparator.lessThan(sortedArray[middleIndex], seekElement)) {
+      startIndex = middleIndex + 1;
+    } else {
+      endIndex = middleIndex - 1;
+    }
+  }
+
+  return -1; // not found
+}
+```
+
+**Usage:**
+
+```javascript binary-search-usage.js
+import binarySearch from './binarySearch';
+
+const sorted = [1, 3, 5, 7, 9, 11, 13];
+binarySearch(sorted, 7);  // returns 3 (index)
+binarySearch(sorted, 6);  // returns -1 (not found)
+
+// Custom comparator for objects
+binarySearch(
+  [{ id: 1 }, { id: 3 }, { id: 5 }],
+  { id: 3 },
+  (a, b) => a.id - b.id,
+); // returns 1
+```
+
+## Linear Search
+
+`B` Checks each element in sequence until the target is found or the array is exhausted. Works on any array regardless of order.
+
+```javascript linear-search-usage.js
+import linearSearch from './linearSearch';
+
+const arr = [5, 3, 8, 1, 9];
+linearSearch(arr, 8);  // returns [2] (all matching indices)
+linearSearch(arr, 7);  // returns [] (not found)
+```
+
+<Tip>
+  Use linear search when the array is unsorted or small. For sorted arrays, binary search is almost always faster.
+</Tip>
+
+## Jump Search
+
+`B` Jumps ahead by fixed steps of size √n, then performs a linear search in the identified block. Balances between linear and binary search for sorted arrays.
+
+```javascript jump-search-usage.js
+import jumpSearch from './jumpSearch';
+
+const sorted = [1, 3, 5, 7, 9, 11, 13, 15];
+jumpSearch(sorted, 7);   // returns 3 (index)
+jumpSearch(sorted, 10);  // returns -1 (not found)
+```
+
+## Interpolation Search
+
+`B` An improvement over binary search for uniformly distributed sorted arrays. Estimates the position of the target using a linear interpolation formula instead of always picking the midpoint.
+
+```javascript interpolation-search-usage.js
+import interpolationSearch from './interpolationSearch';
+
+// Works best when values are uniformly distributed
+const uniform = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+interpolationSearch(uniform, 7);  // returns 6 (index)
+interpolationSearch(uniform, 11); // returns -1 (not found)
+```
+
+<Note>
+  Interpolation search achieves O(log log n) on uniformly distributed data, but degrades to O(n) in the worst case (exponential distributions). Use binary search if distribution is unknown.
+</Note>

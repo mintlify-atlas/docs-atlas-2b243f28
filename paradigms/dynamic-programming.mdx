@@ -1,0 +1,88 @@
+---
+title: "Dynamic Programming Paradigm"
+description: "How dynamic programming works, when to apply it, and the problems in this repository that use it."
+---
+
+Dynamic programming (DP) solves problems by:
+
+1. Breaking them into **overlapping subproblems**
+2. Solving each subproblem **once** and storing the result
+3. Reusing stored results to build the final answer
+
+It applies when a problem has two key properties:
+- **Optimal substructure** — an optimal solution to the problem contains optimal solutions to its subproblems
+- **Overlapping subproblems** — the same subproblems recur many times
+
+This distinguishes DP from divide and conquer (where subproblems are independent and don't overlap).
+
+## Two approaches
+
+<Tabs>
+  <Tab title="Top-down (Memoization)">
+    Start from the original problem and recurse, storing results in a cache to avoid recomputation.
+
+    ```javascript fibonacci-memoized.js
+    const memo = {};
+
+    function fibMemo(n) {
+      if (n <= 1) return n;
+      if (memo[n] !== undefined) return memo[n];
+      memo[n] = fibMemo(n - 1) + fibMemo(n - 2);
+      return memo[n];
+    }
+
+    fibMemo(50); // fast, no redundant recursion
+    ```
+  </Tab>
+  <Tab title="Bottom-up (Tabulation)">
+    Start from the smallest subproblems and iteratively build up to the answer.
+
+    ```javascript fibonacci-tabulated.js
+    function fibTabulated(n) {
+      const dp = [0, 1];
+      for (let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+      }
+      return dp[n];
+    }
+
+    fibTabulated(50); // fast, iterative
+    ```
+  </Tab>
+</Tabs>
+
+## Examples in this repository
+
+| Algorithm | Difficulty | Source |
+|-----------|-----------|--------|
+| Fibonacci Number | `B` | `src/algorithms/math/fibonacci/` |
+| Jump Game (DP) | `B` | `src/algorithms/uncategorized/jump-game/` |
+| Unique Paths | `B` | `src/algorithms/uncategorized/unique-paths/` |
+| Rain Terraces | `B` | `src/algorithms/uncategorized/rain-terraces/` |
+| Recursive Staircase | `B` | `src/algorithms/uncategorized/recursive-staircase/` |
+| Seam Carving | `B` | `src/algorithms/image-processing/seam-carving/` |
+| Levenshtein Distance | `A` | `src/algorithms/string/levenshtein-distance/` |
+| Longest Common Subsequence | `A` | `src/algorithms/sets/longest-common-subsequence/` |
+| Longest Common Substring | `A` | `src/algorithms/string/longest-common-substring/` |
+| Longest Increasing Subsequence | `A` | `src/algorithms/sets/longest-increasing-subsequence/` |
+| Shortest Common Supersequence | `A` | `src/algorithms/sets/shortest-common-supersequence/` |
+| 0/1 Knapsack Problem | `A` | `src/algorithms/sets/knapsack-problem/` |
+| Integer Partition | `A` | `src/algorithms/math/integer-partition/` |
+| Maximum Subarray (Kadane's) | `A` | `src/algorithms/sets/maximum-subarray/` |
+| Bellman-Ford | `A` | `src/algorithms/graph/bellman-ford/` |
+| Floyd-Warshall | `A` | `src/algorithms/graph/floyd-warshall/` |
+| Regular Expression Matching | `A` | `src/algorithms/string/regular-expression-matching/` |
+
+## Identifying DP problems
+
+Ask these questions:
+
+1. Can the problem be broken into smaller subproblems of the same type?
+2. Do those subproblems overlap (same subproblem solved multiple times in naive recursion)?
+3. Does the optimal solution to the whole problem depend on optimal solutions to subproblems?
+
+If all three answers are yes, DP is likely the right approach.
+
+<Tip>
+  A useful technique: write the brute-force recursive solution first, then add memoization (top-down DP). Then, if needed, convert to iterative tabulation (bottom-up DP) to eliminate recursion overhead.
+</Tip>

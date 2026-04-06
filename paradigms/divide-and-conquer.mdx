@@ -1,0 +1,100 @@
+---
+title: "Divide and Conquer"
+description: "Algorithms that split a problem into smaller independent subproblems, solve each recursively, then combine the results."
+---
+
+Divide and conquer works in three steps:
+
+1. **Divide** — Split the problem into smaller subproblems of the same type
+2. **Conquer** — Solve each subproblem recursively (base case: trivially small)
+3. **Combine** — Merge the subproblem solutions into the overall solution
+
+This paradigm is particularly effective when subproblems are **independent** (do not overlap). When they do overlap, dynamic programming is more efficient.
+
+## When to use
+
+- Subproblems are independent of each other
+- The problem has natural recursive structure
+- Combining solutions is cheap relative to solving subproblems
+
+## Examples in this repository
+
+| Algorithm | Source |
+|-----------|--------|
+| Binary Search | `src/algorithms/search/binary-search/` |
+| Merge Sort | `src/algorithms/sorting/merge-sort/` |
+| Quick Sort | `src/algorithms/sorting/quick-sort/` |
+| Tower of Hanoi | `src/algorithms/uncategorized/hanoi-tower/` |
+| Pascal's Triangle | `src/algorithms/math/pascal-triangle/` |
+| Euclidean Algorithm | `src/algorithms/math/euclidean-algorithm/` |
+| Fast Powering | `src/algorithms/math/fast-powering/` |
+| Tree DFS | `src/algorithms/tree/depth-first-search/` |
+| Graph DFS | `src/algorithms/graph/depth-first-search/` |
+| Permutations | `src/algorithms/sets/permutations/` |
+| Combinations | `src/algorithms/sets/combinations/` |
+| Maximum Subarray | `src/algorithms/sets/maximum-subarray/` |
+| Best Time to Buy/Sell Stocks | `src/algorithms/uncategorized/best-time-to-buy-sell-stocks/` |
+
+## Merge Sort — a canonical example
+
+```javascript merge-sort.js
+export default class MergeSort extends Sort {
+  sort(originalArray) {
+    // Base case: arrays of 0 or 1 element are already sorted
+    if (originalArray.length <= 1) return originalArray;
+
+    // DIVIDE: split array in half
+    const middleIndex = Math.floor(originalArray.length / 2);
+    const leftArray = originalArray.slice(0, middleIndex);
+    const rightArray = originalArray.slice(middleIndex);
+
+    // CONQUER: sort each half recursively
+    const leftSorted = this.sort(leftArray);
+    const rightSorted = this.sort(rightArray);
+
+    // COMBINE: merge the two sorted halves
+    return this.mergeSortedArrays(leftSorted, rightSorted);
+  }
+}
+```
+
+**Complexity:** O(n log n) time, O(n) space
+
+## Binary Search — divide without recursion
+
+```javascript binarySearch.js
+export default function binarySearch(sortedArray, seekElement, comparatorCallback) {
+  const comparator = new Comparator(comparatorCallback);
+  let startIndex = 0;
+  let endIndex = sortedArray.length - 1;
+
+  while (startIndex <= endIndex) {
+    // DIVIDE: find midpoint
+    const middleIndex = startIndex + Math.floor((endIndex - startIndex) / 2);
+
+    if (comparator.equal(sortedArray[middleIndex], seekElement)) {
+      return middleIndex; // found
+    }
+
+    // CONQUER: restrict search to one half
+    if (comparator.lessThan(sortedArray[middleIndex], seekElement)) {
+      startIndex = middleIndex + 1;
+    } else {
+      endIndex = middleIndex - 1;
+    }
+  }
+
+  return -1;
+}
+```
+
+**Complexity:** O(log n) time, O(1) space
+
+## Fast Powering
+
+Computes x^n by repeatedly squaring: x^n = (x^(n/2))^2, reducing multiplications from O(n) to O(log n).
+
+```javascript fast-powering-usage.js
+import fastPowering from './fastPowering';
+fastPowering(2, 10); // 1024 — only 4 multiplications instead of 10
+```

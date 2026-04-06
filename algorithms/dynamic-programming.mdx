@@ -1,0 +1,115 @@
+---
+title: "Dynamic Programming"
+description: "Fibonacci, jump game, unique paths, knapsack, LCS, Levenshtein distance, and more — solved with dynamic programming in JavaScript."
+---
+
+Dynamic programming (DP) solves problems by breaking them into overlapping subproblems and storing results to avoid redundant computation. It applies to both **top-down** (memoization) and **bottom-up** (tabulation) strategies.
+
+<Note>
+  Many DP algorithms in this repo are also covered under other sections (Strings, Sets, Graphs). This page highlights the DP angle specifically.
+</Note>
+
+## Fibonacci Number `B`
+
+The classic DP example. The iterative bottom-up approach avoids the exponential cost of naive recursion.
+
+```javascript fibonacci.js
+export default function fibonacci(n) {
+  const fibSequence = [1];
+  let currentValue = 1;
+  let previousValue = 0;
+
+  if (n === 1) return fibSequence;
+
+  let iterationsCounter = n - 1;
+  while (iterationsCounter) {
+    currentValue += previousValue;
+    previousValue = currentValue - previousValue;
+    fibSequence.push(currentValue);
+    iterationsCounter -= 1;
+  }
+
+  return fibSequence;
+}
+
+fibonacci(8); // [1, 1, 2, 3, 5, 8, 13, 21]
+```
+
+**Complexity:** O(n) time, O(n) space (for the sequence array)
+
+## Jump Game `B`
+
+Given an array where each element represents maximum jump length from that position, determine if you can reach the last index. Multiple approaches: backtracking, DP top-down, DP bottom-up, and greedy.
+
+**Source:** `src/algorithms/uncategorized/jump-game/`
+
+## Unique Paths `B`
+
+Count all unique paths from the top-left to bottom-right of an m×n grid (only right/down moves). Solved with DP and Pascal's Triangle.
+
+**Source:** `src/algorithms/uncategorized/unique-paths/`
+
+```javascript unique-paths-usage.js
+import uniquePaths from './uniquePathsDynamic';
+uniquePaths(3, 3); // 6 unique paths in a 3x3 grid
+```
+
+## Rain Terraces `B`
+
+Trap rainwater problem: given an elevation map, compute how much water it can trap after rain. Both DP and brute-force solutions included.
+
+**Source:** `src/algorithms/uncategorized/rain-terraces/`
+
+## Recursive Staircase `B`
+
+Count the number of ways to climb n stairs taking 1, 2, or 3 steps at a time. Classic DP recurrence.
+
+**Source:** `src/algorithms/uncategorized/recursive-staircase/`
+
+## Seam Carving `B`
+
+Content-aware image resizing via dynamic programming. Finds the lowest-energy seam (path of pixels) to remove for seamless resizing.
+
+**Source:** `src/algorithms/image-processing/seam-carving/`
+
+## Levenshtein Distance `A`
+
+Minimum edit distance between two strings, computed with a 2D DP table.
+
+```javascript levenshtein-usage.js
+import levenshteinDistance from './levenshteinDistance';
+levenshteinDistance('kitten', 'sitting'); // 3
+```
+
+**Source:** `src/algorithms/string/levenshtein-distance/`
+
+## Longest Common Subsequence (LCS) `A`
+
+Finds the longest subsequence present in both sequences (not necessarily contiguous).
+
+**Source:** `src/algorithms/sets/longest-common-subsequence/`
+
+## 0/1 Knapsack Problem `A`
+
+Given items with weights and values and a weight limit, find the subset of items with maximum total value. DP fills an (n × W) table.
+
+**Source:** `src/algorithms/sets/knapsack-problem/`
+
+## Bellman-Ford & Floyd-Warshall `A`
+
+Both shortest-path graph algorithms use DP to build up solutions from smaller subproblems.
+
+- **Bellman-Ford:** `src/algorithms/graph/bellman-ford/`
+- **Floyd-Warshall:** `src/algorithms/graph/floyd-warshall/`
+
+## Other DP Problems
+
+| Algorithm | Difficulty | Source |
+|-----------|-----------|--------|
+| Longest Common Substring | `A` | `src/algorithms/string/longest-common-substring/` |
+| Longest Increasing Subsequence | `A` | `src/algorithms/sets/longest-increasing-subsequence/` |
+| Shortest Common Supersequence | `A` | `src/algorithms/sets/shortest-common-supersequence/` |
+| Integer Partition | `A` | `src/algorithms/math/integer-partition/` |
+| Maximum Subarray (Kadane's) | `A` | `src/algorithms/sets/maximum-subarray/` |
+| Regular Expression Matching | `A` | `src/algorithms/string/regular-expression-matching/` |
+| Best Time to Buy/Sell Stocks | `B` | `src/algorithms/uncategorized/best-time-to-buy-sell-stocks/` |

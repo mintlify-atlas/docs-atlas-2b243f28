@@ -1,0 +1,125 @@
+---
+title: "Other Algorithms"
+description: "Cryptography, machine learning, statistics, and classic uncategorized problems — implemented in JavaScript."
+---
+
+This page covers algorithm categories beyond sorting, searching, math, strings, sets, and graphs.
+
+## Cryptography `B`
+
+Basic cryptographic algorithms for educational purposes.
+
+**Source:** `src/algorithms/cryptography/`
+
+| Algorithm | Description |
+|-----------|-------------|
+| Polynomial Hash | Rolling hash function based on polynomials — used in Rabin-Karp search |
+| Rail Fence Cipher | Transposition cipher that writes in a zigzag pattern |
+| Caesar Cipher | Simple substitution cipher — shift each letter by a fixed amount |
+| Hill Cipher | Substitution cipher based on linear algebra / matrix multiplication |
+
+```javascript caesar-usage.js
+import caesarCipher from './caesarCipher';
+
+caesarCipher('abc', 3);  // 'def'
+caesarCipher('xyz', 3);  // 'abc'
+caesarCipher('def', -3); // 'abc' (decrypt)
+```
+
+## Machine Learning `B`
+
+Foundational ML algorithm implementations for learning purposes.
+
+**Source:** `src/algorithms/ml/`
+
+### k-Nearest Neighbors (k-NN)
+
+Classification algorithm that assigns a label based on the majority class among the k closest training examples.
+
+```javascript knn-usage.js
+import kNN from './kNN';
+
+// dataSet: array of points, e.g. [[x1, y1], [x2, y2], ...]
+const dataSet = [[1, 2], [3, 4], [5, 1]];
+// labels: class for each point in dataSet
+const labels = [1, 2, 1];
+// point to classify
+const toClassify = [2, 2];
+
+kNN(dataSet, labels, toClassify, 3); // 1 (class label voted by 3 nearest neighbors)
+```
+
+### k-Means Clustering
+
+Unsupervised clustering algorithm. Partitions n observations into k clusters where each observation belongs to the cluster with the nearest centroid.
+
+**Source:** `src/algorithms/ml/k-means/`
+
+## Statistics `B`
+
+### Weighted Random
+
+Select a random item from a list where each item has a different probability weight.
+
+**Source:** `src/algorithms/statistics/weighted-random/`
+
+```javascript weighted-random-usage.js
+import weightedRandom from './weightedRandom';
+
+const items = ['cat', 'dog', 'bird'];
+const weights = [0.6, 0.3, 0.1]; // cat 60%, dog 30%, bird 10%
+
+const result = weightedRandom(items, weights);
+// returns { item: 'cat', index: 0 } (or dog/bird per weights)
+console.log(result.item);  // e.g. 'cat'
+console.log(result.index); // e.g. 0
+```
+
+## Image Processing `B`
+
+### Seam Carving
+
+Content-aware image resizing using dynamic programming. Finds the lowest-energy path (seam) of pixels to remove so the image shrinks without distorting key content.
+
+**Source:** `src/algorithms/image-processing/seam-carving/`
+
+## Classic Uncategorized Problems
+
+| Algorithm | Difficulty | Description |
+|-----------|-----------|-------------|
+| Tower of Hanoi | `B` | Move n disks recursively |
+| Square Matrix Rotation | `B` | Rotate a matrix 90° in-place |
+| Jump Game | `B` | Reach the last index — backtracking, DP, greedy |
+| Unique Paths | `B` | Grid paths — backtracking, DP, Pascal's Triangle |
+| Rain Terraces | `B` | Trapping rainwater — DP and brute force |
+| Recursive Staircase | `B` | Count ways to climb n stairs |
+| Best Time to Buy/Sell Stocks | `B` | Divide & conquer and one-pass approaches |
+| Valid Parentheses | `B` | Check balanced brackets using a stack |
+| N-Queens Problem | `A` | Place N queens on an N×N board (backtracking) |
+| Knight's Tour | `A` | Visit every chessboard square exactly once |
+
+### Tower of Hanoi
+
+Move n disks from peg A to peg C using peg B, following the rule that a larger disk can never be placed on a smaller one.
+
+```javascript hanoi-usage.js
+import hanoiTower from './hanoiTower';
+
+const moves = [];
+hanoiTower(3, 'A', 'C', 'B', (from, to) => {
+  moves.push(`${from} → ${to}`);
+});
+// moves: ['A → C', 'A → B', 'C → B', 'A → C', 'B → A', 'B → C', 'A → C']
+```
+
+### N-Queens Problem
+
+Place N chess queens on an N×N board so that no two queens threaten each other. Solved with backtracking.
+
+**Source:** `src/algorithms/uncategorized/n-queens/`
+
+### Knight's Tour
+
+Find a sequence of knight moves such that the knight visits every square on an N×N chessboard exactly once. Uses backtracking with Warnsdorff's heuristic.
+
+**Source:** `src/algorithms/uncategorized/knight-tour/`

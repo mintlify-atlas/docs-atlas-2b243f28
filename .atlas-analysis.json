@@ -1,0 +1,95 @@
+{
+  "projectType": "general",
+  "projectName": "JavaScript Algorithms",
+  "projectDescription": "A comprehensive collection of algorithms and data structures implemented in JavaScript with explanations, complexity analysis, and links to further reading.",
+  "theme": "palm",
+  "primaryColor": "#848c8e",
+  "lightColor": "#11161e",
+  "darkColor": "#cfd0d2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guide",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "getting-started",
+              "big-o-notation"
+            ]
+          },
+          {
+            "group": "Data Structures",
+            "pages": [
+              "data-structures/linear",
+              "data-structures/trees",
+              "data-structures/graphs-and-sets"
+            ]
+          },
+          {
+            "group": "Algorithms",
+            "pages": [
+              "algorithms/sorting",
+              "algorithms/searching",
+              "algorithms/math",
+              "algorithms/strings-and-sets",
+              "algorithms/graphs",
+              "algorithms/dynamic-programming",
+              "algorithms/other"
+            ]
+          },
+          {
+            "group": "Algorithmic Paradigms",
+            "pages": [
+              "paradigms/overview",
+              "paradigms/brute-force-and-greedy",
+              "paradigms/divide-and-conquer",
+              "paradigms/dynamic-programming",
+              "paradigms/backtracking"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing",
+              "faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "100+ algorithm implementations in JavaScript with tests",
+    "13 data structure implementations (linked list, tree, graph, heap, trie, etc.)",
+    "Algorithms categorized by topic (math, sorting, searching, graphs, strings, etc.) and by paradigm",
+    "Big O complexity tables for data structures and sorting algorithms",
+    "Beginner and Advanced difficulty labels for every implementation",
+    "Each implementation has its own README with explanations and further reading links",
+    "Full test suite using Jest with 100% coverage"
+  ],
+  "publicApiSurface": [
+    "LinkedList",
+    "DoublyLinkedList",
+    "Queue",
+    "Stack",
+    "HashTable",
+    "Heap (MinHeap / MaxHeap)",
+    "PriorityQueue",
+    "Trie",
+    "BinarySearchTree",
+    "AVLTree",
+    "RedBlackTree",
+    "SegmentTree",
+    "FenwickTree",
+    "Graph",
+    "DisjointSet",
+    "BloomFilter",
+    "LRUCache",
+    "BubbleSort / SelectionSort / InsertionSort / MergeSort / QuickSort / HeapSort / ShellSort / CountingSort / RadixSort / BucketSort",
+    "BinarySearch / LinearSearch / JumpSearch / InterpolationSearch",
+    "Dijkstra / BellmanFord / FloydWarshall / Prim / Kruskal",
+    "KnuthMorrisPratt / RabinKarp / ZAlgorithm / LevenshteinDistance"
+  ]
+}

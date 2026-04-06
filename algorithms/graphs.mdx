@@ -1,0 +1,113 @@
+---
+title: "Graph Algorithms"
+description: "BFS, DFS, shortest paths (Dijkstra, Bellman-Ford, Floyd-Warshall), minimum spanning trees (Prim, Kruskal), and more — implemented in JavaScript."
+---
+
+Graph algorithms operate on the `Graph`, `GraphVertex`, and `GraphEdge` data structures from `src/data-structures/graph/`. They cover traversal, shortest paths, spanning trees, and more.
+
+**Source:** `src/algorithms/graph/`
+
+## Traversal
+
+### Breadth-First Search (BFS) `B`
+
+Visits all vertices level by level, exploring all neighbors before moving deeper. Used to find shortest paths in unweighted graphs.
+
+```javascript bfs-usage.js
+import breadthFirstSearch from './breadthFirstSearch';
+import Graph from '../../data-structures/graph/Graph';
+import GraphVertex from '../../data-structures/graph/GraphVertex';
+import GraphEdge from '../../data-structures/graph/GraphEdge';
+
+const graph = new Graph();
+const vA = new GraphVertex('A');
+const vB = new GraphVertex('B');
+const vC = new GraphVertex('C');
+graph.addVertex(vA).addVertex(vB).addVertex(vC);
+graph.addEdge(new GraphEdge(vA, vB));
+graph.addEdge(new GraphEdge(vB, vC));
+
+const visited = [];
+breadthFirstSearch(graph, vA, {
+  enterVertex: ({ currentVertex }) => visited.push(currentVertex.getKey()),
+});
+// visited: ['A', 'B', 'C']
+```
+
+### Depth-First Search (DFS) `B`
+
+Explores as far as possible down each branch before backtracking. Used for topological sort, cycle detection, and connected components.
+
+**Source:** `src/algorithms/graph/depth-first-search/`
+
+## Shortest Paths
+
+### Dijkstra's Algorithm `A`
+
+Finds the shortest paths from a single source vertex to all other vertices in a weighted graph with non-negative edge weights. Uses a priority queue for O((V + E) log V) performance.
+
+```javascript dijkstra-usage.js
+import dijkstra from './dijkstra';
+
+const { distances, previousVertices } = dijkstra(graph, startVertex);
+
+// distances: { 'A': 0, 'B': 2, 'C': 7 }
+// previousVertices: path reconstruction map
+```
+
+### Bellman-Ford Algorithm `A`
+
+Finds shortest paths from a single source, handling **negative edge weights**. Runs in O(V × E) time. Also detects negative-weight cycles.
+
+**Source:** `src/algorithms/graph/bellman-ford/`
+
+### Floyd-Warshall Algorithm `A`
+
+Finds shortest paths between **all pairs** of vertices in O(V³) time. Handles negative weights (but not negative cycles).
+
+**Source:** `src/algorithms/graph/floyd-warshall/`
+
+<Tip>
+  **Choosing the right shortest-path algorithm:**
+  - Non-negative weights, single source → **Dijkstra**
+  - Negative weights possible, single source → **Bellman-Ford**
+  - All pairs needed → **Floyd-Warshall**
+</Tip>
+
+## Minimum Spanning Trees
+
+### Kruskal's Algorithm `B`
+
+Finds the MST of a weighted undirected graph by greedily adding the lowest-weight edge that doesn't form a cycle. Uses the Disjoint Set data structure.
+
+**Source:** `src/algorithms/graph/kruskal/`
+
+### Prim's Algorithm `A`
+
+Another MST algorithm that grows the tree one vertex at a time, always adding the lowest-weight edge connecting the tree to an unvisited vertex.
+
+**Source:** `src/algorithms/graph/prim/`
+
+## Other Graph Algorithms
+
+| Algorithm | Difficulty | Description |
+|-----------|-----------|-------------|
+| Detect Cycle | `A` | DFS and Disjoint Set based, directed and undirected |
+| Topological Sorting | `A` | DFS-based topological order |
+| Articulation Points | `A` | Tarjan's algorithm — find bridge vertices |
+| Bridges | `A` | DFS-based bridge detection |
+| Eulerian Path & Circuit | `A` | Fleury's algorithm — visit every edge once |
+| Hamiltonian Cycle | `A` | Visit every vertex exactly once (backtracking) |
+| Strongly Connected Components | `A` | Kosaraju's algorithm |
+| Travelling Salesman Problem | `A` | Shortest route visiting each city once |
+
+## Tree traversal variants
+
+Separate implementations exist for tree-specific traversal (operating on tree data structures rather than general graphs):
+
+| Algorithm | Difficulty | Source |
+|-----------|-----------|--------|
+| Tree BFS | `B` | `src/algorithms/tree/breadth-first-search/` |
+| Tree DFS | `B` | `src/algorithms/tree/depth-first-search/` |
+| Linked List Traversal | `B` | `src/algorithms/linked-list/traversal/` |
+| Linked List Reverse Traversal | `B` | `src/algorithms/linked-list/reverse-traversal/` |

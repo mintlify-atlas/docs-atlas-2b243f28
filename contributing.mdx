@@ -1,0 +1,76 @@
+---
+title: "Contributing"
+description: "How to contribute new algorithms, data structures, and translations to javascript-algorithms."
+---
+
+Contributions are welcome. This page covers the guidelines for adding new algorithms, data structures, and translations.
+
+## General rules
+
+- Follow the existing format of markdown and code as closely as possible
+- Run `npm run lint` and `npm test` before submitting a pull request
+- Ensure **100%** of your new code is covered by tests
+
+## Contributing a new algorithm or data structure
+
+<Steps>
+  <Step title="Fork and clone the repository">
+    Fork `trekhleb/javascript-algorithms` on GitHub, then clone your fork locally.
+
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/javascript-algorithms.git
+    cd javascript-algorithms
+    npm install
+    ```
+  </Step>
+  <Step title="Create your implementation">
+    Add your implementation in the appropriate directory under `src/algorithms/` or `src/data-structures/`. For example, a new sorting algorithm goes in `src/algorithms/sorting/my-sort/`.
+
+    Each implementation should follow the existing patterns:
+    - A main `.js` file with the implementation class or function
+    - A `__test__/` directory with Jest test files
+    - A `README.md` explaining the algorithm with complexity and further reading links
+  </Step>
+  <Step title="Add a README.md">
+    Provide a `README.md` in your implementation directory with:
+
+    - A plain-language explanation of how it works
+    - Time and space complexity
+    - Links to further reading (Wikipedia articles, YouTube videos, etc.)
+  </Step>
+  <Step title="Write tests">
+    Add Jest tests in `__test__/yourAlgorithm.test.js`. Every line of your implementation must be covered.
+
+    ```bash
+    npm test -- 'YourAlgorithmName'
+    ```
+  </Step>
+  <Step title="Run lint and all tests">
+    ```bash
+    npm run lint
+    npm test
+    ```
+
+    Fix any linting errors or test failures before submitting.
+  </Step>
+  <Step title="Open a pull request">
+    Make your pull requests **specific and focused**. Submit one algorithm per PR — for example, one PR for Quick Sort and a separate PR for Heap Sort.
+  </Step>
+</Steps>
+
+## Pull request guidelines
+
+- Keep each PR focused on a single algorithm or data structure
+- Include the README.md with your implementation
+- Describe what you do in code using comments
+- Make sure CI passes (lint + tests + coverage)
+
+## Contributing a translation
+
+To add a translation of a README:
+
+1. Create a new `README.xx-XX.md` file alongside the existing `README.md`, where `xx-XX` is the [locale and country code](http://www.lingoes.net/en/translator/langcode.htm) (e.g., `en-US`, `zh-CN`, `ko-KR`)
+2. You may also translate sub-folder READMEs by creating matching `README.xx-XX.md` files in each directory
+3. Open a PR with your translation files
+
+Currently available translations: 简体中文, 繁體中文, 한국어, 日本語, Polski, Français, Español, Português, Русский, Türkçe, Italiano, Bahasa Indonesia, Українська, العربية, Tiếng Việt, Deutsch, Uzbek, עברית

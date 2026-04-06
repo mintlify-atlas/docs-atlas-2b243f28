@@ -1,0 +1,92 @@
+---
+title: "Brute Force & Greedy"
+description: "Algorithms that exhaustively search all possibilities or always select the locally optimal choice."
+---
+
+## Brute Force
+
+Brute force algorithms examine all possible candidates and select the best. They are simple to implement and useful as correctness baselines, but typically do not scale well.
+
+### When to use
+
+- Problem size is small
+- You need a reference implementation to verify optimized solutions
+- No clever structure exists to exploit
+
+### Examples in this repository
+
+| Algorithm | Source |
+|-----------|--------|
+| Linear Search | `src/algorithms/search/linear-search/` |
+| Rain Terraces (brute force) | `src/algorithms/uncategorized/rain-terraces/` |
+| Recursive Staircase (brute force) | `src/algorithms/uncategorized/recursive-staircase/` |
+| Maximum Subarray (brute force) | `src/algorithms/sets/maximum-subarray/` |
+| Travelling Salesman (brute force) | `src/algorithms/graph/travelling-salesman/` |
+| Discrete Fourier Transform | `src/algorithms/math/fourier-transform/` |
+
+### Linear Search example
+
+```javascript linearSearch.js
+export default function linearSearch(array, seekElement, customComparator) {
+  const comparator = new Comparator(customComparator);
+  const foundIndices = [];
+
+  array.forEach((element, index) => {
+    if (comparator.equal(element, seekElement)) {
+      foundIndices.push(index);
+    }
+  });
+
+  return foundIndices;
+}
+```
+
+**Complexity:** O(n) — checks every element in the worst case.
+
+---
+
+## Greedy
+
+Greedy algorithms build a solution by always making the locally optimal choice at each step, without reconsidering past decisions. They work when the problem has the **greedy choice property** (a local optimum leads to a global optimum) and **optimal substructure**.
+
+### When to use
+
+- The problem has the greedy choice property
+- Optimal substructure is present
+- Speed matters and an exact solution is not required (approximation)
+
+### Examples in this repository
+
+| Algorithm | Source |
+|-----------|--------|
+| Jump Game (greedy) | `src/algorithms/uncategorized/jump-game/` |
+| Dijkstra's Algorithm | `src/algorithms/graph/dijkstra/` |
+| Prim's Algorithm | `src/algorithms/graph/prim/` |
+| Kruskal's Algorithm | `src/algorithms/graph/kruskal/` |
+| Unbound Knapsack | `src/algorithms/sets/knapsack-problem/` |
+
+### Jump Game (greedy approach)
+
+The greedy solution tracks the farthest reachable index. If at any point the current index exceeds it, the end is unreachable.
+
+```javascript jump-game-greedy.js
+export default function canJumpGreedy(nums) {
+  let maxReach = 0;
+
+  for (let i = 0; i < nums.length; i += 1) {
+    if (i > maxReach) return false;
+    maxReach = Math.max(maxReach, i + nums[i]);
+  }
+
+  return true;
+}
+
+canJumpGreedy([2, 3, 1, 1, 4]); // true
+canJumpGreedy([3, 2, 1, 0, 4]); // false
+```
+
+**Complexity:** O(n) time, O(1) space — much better than the DP O(n²) approach.
+
+<Tip>
+  The Jump Game implementation at `src/algorithms/uncategorized/jump-game/` contains four different solutions (backtracking, DP top-down, DP bottom-up, greedy) — making it an excellent study in paradigm comparison.
+</Tip>

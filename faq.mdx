@@ -1,0 +1,75 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about using the javascript-algorithms repository."
+---
+
+<AccordionGroup>
+  <Accordion title="What Node.js version do I need?">
+    The repository requires **Node.js >= 22** and **npm >= 10**. Check your version with:
+
+    ```bash
+    node --version
+    npm --version
+    ```
+
+    If you use [nvm](https://github.com/nvm-sh/nvm), run `nvm use` from the project root — the `.nvmrc` file will select the correct version automatically.
+  </Accordion>
+
+  <Accordion title="How do I run tests for a specific algorithm?">
+    Pass the algorithm class or function name to Jest:
+
+    ```bash
+    npm test -- 'LinkedList'
+    npm test -- 'BubbleSort'
+    npm test -- 'binarySearch'
+    ```
+
+    Jest performs a substring match against test file names and `describe` block names.
+  </Accordion>
+
+  <Accordion title="Tests or linting are failing — how do I fix it?">
+    The most common fix is to delete `node_modules` and reinstall:
+
+    ```bash
+    rm -rf ./node_modules
+    npm install
+    ```
+
+    Also verify you are using the correct Node version (`>= 22`). If you use nvm:
+
+    ```bash
+    nvm use
+    ```
+  </Accordion>
+
+  <Accordion title="How do I use the playground?">
+    Open `src/playground/playground.js` and write your experiment there. Write tests for it in `src/playground/__test__/playground.test.js`, then run:
+
+    ```bash
+    npm test -- 'playground'
+    ```
+
+    The playground files are intentionally excluded from the main test suite so they don't affect coverage reporting.
+  </Accordion>
+
+  <Accordion title="Can I use these implementations in production?">
+    Yes, the code is MIT licensed. However, these implementations are primarily written for learning clarity — production use cases may benefit from more optimized libraries. Always verify correctness for your specific requirements.
+  </Accordion>
+
+  <Accordion title="What is the difference between B and A difficulty labels?">
+    - **B (Beginner)** — Foundational structures and classic algorithms. Good starting point for learning.
+    - **A (Advanced)** — More complex implementations that require solid understanding of foundational concepts (recursion, trees, graphs, etc.).
+
+    The labels are a guide, not a strict gate. Advanced implementations always have their own README to help you understand them.
+  </Accordion>
+
+  <Accordion title="How do I add a new algorithm?">
+    See the [Contributing](/contributing) guide for step-by-step instructions. In summary: create the implementation file, add 100% test coverage, and include a README.md with complexity analysis and further reading links.
+  </Accordion>
+
+  <Accordion title="Where can I find video explanations?">
+    Many READMEs link directly to YouTube videos. There is also a dedicated playlist:
+
+    [▶ Data Structures and Algorithms on YouTube](https://www.youtube.com/playlist?list=PLLXdhg_r2hKA7DPDsunoDZ-Z769jWn4R8)
+  </Accordion>
+</AccordionGroup>

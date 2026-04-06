@@ -1,0 +1,152 @@
+---
+title: "Math Algorithms"
+description: "Bit manipulation, Fibonacci, factorial, prime numbers, GCD, LCM, matrix operations, and more — implemented in JavaScript."
+---
+
+Mathematical algorithms form the foundation of many higher-level algorithms. This page covers the implementations in `src/algorithms/math/`.
+
+## Beginner (`B`)
+
+### Bit Manipulation
+
+Set, get, update, and clear individual bits. Includes fast multiplication/division by powers of two and negation tricks.
+
+**Source:** `src/algorithms/math/bits/`
+
+```javascript bits-usage.js
+import getBit from './getBit';
+import setBit from './setBit';
+import isEven from './isEven';
+import isPowerOfTwo from './isPowerOfTwo';
+
+getBit(5, 0);     // 1  (binary 101, bit at position 0)
+getBit(5, 1);     // 0
+setBit(5, 1);     // 7  (binary 111)
+isEven(4);        // true
+isPowerOfTwo(8);  // true
+```
+
+### Fibonacci Number
+
+Returns a Fibonacci sequence as an array. Both iterative (classic) and closed-form (Binet's formula) versions are included.
+
+**Source:** `src/algorithms/math/fibonacci/`
+
+```javascript fibonacci.js
+export default function fibonacci(n) {
+  const fibSequence = [1];
+  let currentValue = 1;
+  let previousValue = 0;
+
+  if (n === 1) return fibSequence;
+
+  let iterationsCounter = n - 1;
+  while (iterationsCounter) {
+    currentValue += previousValue;
+    previousValue = currentValue - previousValue;
+    fibSequence.push(currentValue);
+    iterationsCounter -= 1;
+  }
+
+  return fibSequence;
+}
+
+fibonacci(7); // [1, 1, 2, 3, 5, 8, 13]
+```
+
+### Factorial
+
+Computes n! iteratively.
+
+```javascript factorial-usage.js
+import factorial from './factorial';
+factorial(5); // 120
+factorial(0); // 1
+```
+
+### Euclidean Algorithm (GCD)
+
+Calculates the Greatest Common Divisor using the Euclidean algorithm.
+
+```javascript euclidean-usage.js
+import euclideanAlgorithm from './euclideanAlgorithm';
+euclideanAlgorithm(48, 18); // 6
+```
+
+### Least Common Multiple
+
+Uses GCD to compute LCM: `lcm(a, b) = |a * b| / gcd(a, b)`.
+
+```javascript lcm-usage.js
+import leastCommonMultiple from './leastCommonMultiple';
+leastCommonMultiple(4, 6); // 12
+```
+
+### Sieve of Eratosthenes
+
+Finds all prime numbers up to a given limit efficiently.
+
+```javascript sieve-usage.js
+import sieveOfEratosthenes from './sieveOfEratosthenes';
+sieveOfEratosthenes(20); // [2, 3, 5, 7, 11, 13, 17, 19]
+```
+
+### Pascal's Triangle
+
+Generates Pascal's Triangle up to a given number of rows.
+
+```javascript pascal-usage.js
+import pascalTriangle from './pascalTriangle';
+pascalTriangle(4);
+// [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1]]
+```
+
+### Other Beginner Math
+
+| Algorithm | Description | Source |
+|-----------|-------------|--------|
+| Binary Floating Point | Binary representation of floats | `src/algorithms/math/binary-floating-point/` |
+| Prime Factors | Find and count prime factors (Hardy-Ramanujan) | `src/algorithms/math/prime-factors/` |
+| Primality Test | Trial division method | `src/algorithms/math/primality-test/` |
+| Is Power of Two | Naive and bitwise checks | `src/algorithms/math/is-power-of-two/` |
+| Complex Number | Complex arithmetic operations | `src/algorithms/math/complex-number/` |
+| Radian & Degree | Radians ↔ degrees conversion | `src/algorithms/math/radian/` |
+| Fast Powering | Exponentiation by squaring | `src/algorithms/math/fast-powering/` |
+| Horner's Method | Polynomial evaluation | `src/algorithms/math/horner-method/` |
+| Matrices | Matrix multiply, transpose, etc. | `src/algorithms/math/matrix/` |
+| Euclidean Distance | Distance between points/vectors | `src/algorithms/math/euclidean-distance/` |
+
+## Advanced (`A`)
+
+### Integer Partition
+
+Counts the number of ways to partition an integer into positive summands.
+
+**Source:** `src/algorithms/math/integer-partition/`
+
+### Square Root (Newton's Method)
+
+Approximates square root using Newton's iterative method.
+
+**Source:** `src/algorithms/math/square-root/`
+
+### Liu Hui π Algorithm
+
+Approximates π using inscribed N-gons.
+
+**Source:** `src/algorithms/math/liu-hui/`
+
+### Discrete Fourier Transform
+
+Decomposes a time-domain signal into frequency components.
+
+**Source:** `src/algorithms/math/fourier-transform/`
+
+```javascript dft-usage.js
+import dft from './dft';
+
+// Signal: [1, 0, -1, 0] (simple square wave)
+const signal = [1, 0, -1, 0];
+const frequencies = dft(signal);
+// Returns array of complex number amplitudes per frequency
+```

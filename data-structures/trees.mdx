@@ -1,0 +1,170 @@
+---
+title: "Tree Data Structures"
+description: "Trie, Binary Search Tree, AVL Tree, Red-Black Tree, Segment Tree, and Fenwick Tree implementations in JavaScript."
+---
+
+Trees are hierarchical data structures with a root node and subtrees of children. This repository includes several tree variants, from basic binary search trees to self-balancing and specialized trees.
+
+<Note>
+  All tree implementations are labeled **A** (Advanced) — they build on foundational data structure concepts.
+</Note>
+
+## Trie
+
+`A` A trie (also called a prefix tree or digital tree) is a type of search tree used to store strings where each node represents a character. It enables very fast prefix-based lookups.
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| Insert | O(m) — m = word length |
+| Search | O(m) |
+| Delete | O(m) |
+
+**Source:** `src/data-structures/trie/`
+
+```javascript trie-usage.js
+import Trie from './Trie';
+
+const trie = new Trie();
+trie.addWord('cat');
+trie.addWord('cats');
+trie.addWord('car');
+
+trie.doesWordExist('cat');   // true
+trie.doesWordExist('cap');   // false
+
+// Get all words with prefix
+trie.suggestNextCharacters('ca'); // ['t', 'r']
+```
+
+## Binary Search Tree
+
+`A` A BST is a binary tree where each node has at most two children. For any node, all values in the left subtree are smaller and all values in the right subtree are larger.
+
+**Key operations:**
+
+| Operation | Average | Worst |
+|-----------|---------|-------|
+| Insert | O(log n) | O(n) |
+| Search | O(log n) | O(n) |
+| Delete | O(log n) | O(n) |
+
+**Source:** `src/data-structures/tree/binary-search-tree/`
+
+```javascript bst-usage.js
+import BinarySearchTree from './BinarySearchTree';
+
+const bst = new BinarySearchTree();
+bst.insert(10);
+bst.insert(5);
+bst.insert(15);
+bst.insert(3);
+
+bst.contains(5);   // true
+bst.contains(7);   // false
+bst.remove(5);
+```
+
+## AVL Tree
+
+`A` An AVL tree is a self-balancing BST where the heights of the two child subtrees of any node differ by at most one. After each insert or delete, the tree rebalances itself via rotations.
+
+**Key operations:** Same O(log n) as BST for all operations — guaranteed even in worst case.
+
+**Source:** `src/data-structures/tree/avl-tree/`
+
+```javascript avl-usage.js
+import AVLTree from './AVLTree';
+
+const avl = new AVLTree();
+avl.insert(10);
+avl.insert(20);
+avl.insert(30); // triggers left rotation to rebalance
+
+avl.contains(20); // true
+avl.remove(10);
+```
+
+## Red-Black Tree
+
+`A` A red-black tree is another self-balancing BST. Each node is colored red or black, and the tree maintains specific coloring rules that guarantee O(log n) operations. It is less strictly balanced than AVL but requires fewer rotations on insert/delete.
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| Insert | O(log n) |
+| Search | O(log n) |
+| Delete | O(log n) |
+
+**Source:** `src/data-structures/tree/red-black-tree/`
+
+```javascript rb-usage.js
+import RedBlackTree from './RedBlackTree';
+
+const rbTree = new RedBlackTree();
+rbTree.insert(10);
+rbTree.insert(20);
+rbTree.insert(5);
+
+rbTree.contains(20); // true
+rbTree.remove(10);
+```
+
+## Segment Tree
+
+`A` A segment tree is a tree data structure for storing intervals or segments. It allows efficient range queries (min, max, sum) and point updates.
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| Build | O(n) |
+| Range query | O(log n) |
+| Point update | O(log n) |
+
+**Source:** `src/data-structures/tree/segment-tree/`
+
+```javascript segment-tree-usage.js
+import SegmentTree from './SegmentTree';
+
+const array = [1, 3, 5, 7, 9, 11];
+
+// Build tree with min query
+const segTree = new SegmentTree(array, Math.min, Infinity);
+
+// Query min in range [1, 3]
+segTree.rangeQuery(1, 3); // 3
+
+// Query min in range [2, 5]
+segTree.rangeQuery(2, 5); // 5
+```
+
+## Fenwick Tree (Binary Indexed Tree)
+
+`A` A Fenwick tree (or Binary Indexed Tree) provides efficient prefix sum queries and point updates. It uses a compact array representation and bit manipulation to achieve O(log n) for both operations.
+
+**Key operations:**
+
+| Operation | Complexity |
+|-----------|-----------|
+| Build | O(n log n) |
+| Prefix sum query | O(log n) |
+| Point update | O(log n) |
+
+**Source:** `src/data-structures/tree/fenwick-tree/`
+
+```javascript fenwick-usage.js
+import FenwickTree from './FenwickTree';
+
+const treeSize = 5;
+const fenwick = new FenwickTree(treeSize);
+
+fenwick.increase(1, 4); // index 1 += 4
+fenwick.increase(3, 7); // index 3 += 7
+
+fenwick.query(1);    // prefix sum [1..1] = 4
+fenwick.query(3);    // prefix sum [1..3] = 11
+fenwick.queryRange(2, 3); // range sum [2..3] = 7
+```

@@ -1,0 +1,137 @@
+---
+title: "String & Set Algorithms"
+description: "String matching, edit distance, subsequence problems, permutations, combinations, and knapsack implementations in JavaScript."
+---
+
+This page covers algorithms in `src/algorithms/string/` and `src/algorithms/sets/`.
+
+## String Algorithms
+
+### Hamming Distance `B`
+
+Counts the number of positions at which two equal-length strings differ.
+
+**Source:** `src/algorithms/string/hamming-distance/`
+
+```javascript hamming-usage.js
+import hammingDistance from './hammingDistance';
+hammingDistance('karolin', 'kathrin'); // 3
+hammingDistance('1011101', '1001001'); // 2
+```
+
+### Palindrome `B`
+
+Checks whether a string reads the same forwards and backwards.
+
+**Source:** `src/algorithms/string/palindrome/`
+
+```javascript palindrome-usage.js
+import isPalindrome from './isPalindrome';
+isPalindrome('racecar'); // true
+isPalindrome('hello');   // false
+```
+
+### Levenshtein Distance `A`
+
+Computes the minimum number of single-character edits (insert, delete, substitute) required to transform one string into another. Uses dynamic programming.
+
+**Source:** `src/algorithms/string/levenshtein-distance/`
+
+```javascript levenshtein-usage.js
+import levenshteinDistance from './levenshteinDistance';
+levenshteinDistance('kitten', 'sitting'); // 3
+levenshteinDistance('', 'abc');           // 3
+```
+
+### Knuth-Morris-Pratt (KMP) `A`
+
+Efficient substring search that preprocesses the pattern to avoid redundant comparisons. O(n + m) time.
+
+**Source:** `src/algorithms/string/knuth-morris-pratt/`
+
+```javascript kmp-usage.js
+import knuthMorrisPratt from './knuthMorrisPratt';
+knuthMorrisPratt('abcxabcdabcdabcy', 'abcdabcy'); // 8 (index)
+```
+
+### Other String Algorithms
+
+| Algorithm | Difficulty | Description |
+|-----------|-----------|-------------|
+| Z Algorithm | `A` | Substring search via Z-array | 
+| Rabin-Karp | `A` | Rolling hash substring search |
+| Longest Common Substring | `A` | DP-based longest common substring |
+| Regular Expression Matching | `A` | `.` and `*` pattern matching |
+
+## Set Algorithms
+
+### Cartesian Product `B`
+
+Returns all combinations from two or more sets.
+
+**Source:** `src/algorithms/sets/cartesian-product/`
+
+```javascript cartesian-usage.js
+import cartesianProduct from './cartesianProduct';
+cartesianProduct([1, 2], ['a', 'b']);
+// [[1, 'a'], [1, 'b'], [2, 'a'], [2, 'b']]
+```
+
+### Fisher-Yates Shuffle `B`
+
+Produces a uniformly random permutation of an array in O(n) time.
+
+**Source:** `src/algorithms/sets/fisher-yates/`
+
+```javascript shuffle-usage.js
+import fisherYates from './fisherYates';
+fisherYates([1, 2, 3, 4, 5]); // e.g. [3, 1, 5, 2, 4]
+```
+
+### Permutations `A`
+
+Generates all permutations of an array, with and without repetitions.
+
+**Source:** `src/algorithms/sets/permutations/`
+
+```javascript permutations-usage.js
+import permutateWithRepetitions from './permutateWithRepetitions';
+import permutateWithoutRepetitions from './permutateWithoutRepetitions';
+
+permutateWithoutRepetitions([1, 2, 3]);
+// [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+```
+
+### Combinations `A`
+
+Generates all combinations of a given size from an array, with and without repetitions.
+
+**Source:** `src/algorithms/sets/combinations/`
+
+### Knapsack Problem `A`
+
+Solves both the 0/1 and unbounded knapsack variants using dynamic programming.
+
+**Source:** `src/algorithms/sets/knapsack-problem/`
+
+```javascript knapsack-usage.js
+// Items: { weight, value }
+const items = [
+  { weight: 2, value: 6 },
+  { weight: 2, value: 10 },
+  { weight: 3, value: 12 },
+];
+const maxWeight = 5;
+// Find items maximizing value within weight limit
+```
+
+### Other Set Algorithms
+
+| Algorithm | Difficulty | Description |
+|-----------|-----------|-------------|
+| Power Set | `A` | All subsets (bitwise, backtracking, cascading) |
+| Longest Common Subsequence (LCS) | `A` | DP-based LCS |
+| Longest Increasing Subsequence | `A` | DP-based LIS |
+| Shortest Common Supersequence | `A` | SCS via DP |
+| Maximum Subarray | `A` | Brute force and Kadane's algorithm |
+| Combination Sum | `A` | All combinations summing to a target |
